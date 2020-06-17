@@ -48,6 +48,25 @@ app.get(
 	}
 );
 
+// Une route en GET qui affiche TOUS les paramètres
+app.get(
+	'/movies',
+	function (req, res)
+	{
+		console.log(`## Requête sur le movie: ${req.params.id}`);
+
+		// Lecture du JSON
+		var data = fs.readFileSync("movies.json", 'utf8');
+
+		// Parsing JSON du contenu du fichier (qui était une string)
+		var json = JSON.parse(data);
+
+		// Préparation de la réponse en JSON
+		res.setHeader('Content-Type', 'application/json');
+		res.send(json);
+	}
+);
+
 // Une route en POST avec l'url /movie/add
 app.post(
 	'/movie/add',
