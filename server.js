@@ -5,6 +5,7 @@
 // Appeler le module express
 // Il faut avoir fait npm install express avant!
 const express = require('express');
+var cors = require('cors');
 
 // Dépendance pour gérer les fichiers
 const fs = require("fs");
@@ -14,6 +15,10 @@ const app = express();
 
 // On demande à express d'utiliser le middleware JSON
 app.use(express.json());
+
+// Gestion du CORS
+app.use(cors());
+app.use(function(req, res, next) {   res.header("Access-Control-Allow-Origin", "*");   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");   next(); });
 
 // Configurer une route
 // Qui répond à la méthode HTTP GET
@@ -51,9 +56,9 @@ app.get(
 // Une route en GET qui affiche TOUS les paramètres
 app.get(
 	'/movies',
-	function (req, res)
+	function (req, res, next)
 	{
-		console.log(`## Requête sur le movie: ${req.params.id}`);
+		console.log(`## Affichage de TOUS les films`);
 
 		// Lecture du JSON
 		var data = fs.readFileSync("movies.json", 'utf8');
